@@ -9,14 +9,6 @@ This platform combines 3 academic modules into a complete solution:
 ML & DL: RUL prediction models (LSTM, XGBoost) and anomaly detection (Isolation Forest, Autoencoders)
 Data Mining: Exploratory analysis using KNIME Analytics Platform
 Microservices Architecture: Distributed system using Spring Boot, FastAPI, Docker, and Kubernetes
-🎥 Video Demonstration
-
-Watch the complete application demonstration:
-
-👉 **[Voir la vidéo de démonstration](video/demonstrationVideo.mp4)**
-
-
-The video demonstrates the complete functionality of the platform, including:
 
 Dashboard interface
 Anomaly detection functionality
