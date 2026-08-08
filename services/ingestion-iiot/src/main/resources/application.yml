@@ -1,0 +1,362 @@
+spring:
+  application:
+    name: ingestion-iiot
+
+  # PostgreSQL / TimescaleDB Configuration
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:predictive_maintenance}
+    username: ${DATABASE_USER:pmuser}
+    password: ${DATABASE_PASSWORD:pmpassword}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+      properties:
+        max.in.flight.requests.per.connection: 1
+        enable.idempotence: true
+
+# OPC UA Configuration
+opcua:
+  enabled: ${OPCUA_ENABLED:true}
+  endpoint-url: ${OPCUA_ENDPOINT_URL:opc.tcp://localhost:4840}
+  connection-timeout: ${OPCUA_CONNECTION_TIMEOUT:5000}
+  request-timeout: ${OPCUA_REQUEST_TIMEOUT:10000}
+  subscription-interval: ${OPCUA_SUBSCRIPTION_INTERVAL:1000}
+  nodes:
+    # Engine FD001_000 Sensors
+    - node-id: "ns=2;s=ENGINE_FD001_000_T2"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "T2"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD001_000_T24"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "T24"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD001_000_T30"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "T30"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD001_000_T50"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "T50"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD001_000_P2"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "P2"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD001_000_P15"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "P15"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD001_000_P30"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "P30"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD001_000_Nf"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "Nf"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD001_000_Nc"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "Nc"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD001_000_epr"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "epr"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD001_000_Ps30"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "Ps30"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD001_000_phi"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "phi"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD001_000_NRf"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "NRf"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD001_000_NRc"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "NRc"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD001_000_BPR"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "BPR"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD001_000_farB"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "farB"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD001_000_htBleed"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "htBleed"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD001_000_Nf_dmd"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "Nf_dmd"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD001_000_PCNfR_dmd"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "PCNfR_dmd"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD001_000_W31"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "W31"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD001_000_W32"
+      asset-id: "ENGINE_FD001_000"
+      sensor-id: "W32"
+      unit: "--"
+    
+    # Engine FD002_019 Sensors
+    - node-id: "ns=2;s=ENGINE_FD002_019_T2"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "T2"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD002_019_T24"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "T24"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD002_019_T30"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "T30"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD002_019_T50"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "T50"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD002_019_P2"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "P2"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD002_019_P15"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "P15"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD002_019_P30"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "P30"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD002_019_Nf"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "Nf"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD002_019_Nc"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "Nc"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD002_019_epr"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "epr"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD002_019_Ps30"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "Ps30"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD002_019_phi"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "phi"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD002_019_NRf"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "NRf"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD002_019_NRc"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "NRc"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD002_019_BPR"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "BPR"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD002_019_farB"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "farB"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD002_019_htBleed"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "htBleed"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD002_019_Nf_dmd"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "Nf_dmd"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD002_019_PCNfR_dmd"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "PCNfR_dmd"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD002_019_W31"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "W31"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD002_019_W32"
+      asset-id: "ENGINE_FD002_019"
+      sensor-id: "W32"
+      unit: "--"
+    
+    # Engine FD004_000 Sensors
+    - node-id: "ns=2;s=ENGINE_FD004_000_T2"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "T2"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD004_000_T24"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "T24"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD004_000_T30"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "T30"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD004_000_T50"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "T50"
+      unit: "R"
+    - node-id: "ns=2;s=ENGINE_FD004_000_P2"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "P2"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD004_000_P15"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "P15"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD004_000_P30"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "P30"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD004_000_Nf"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "Nf"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD004_000_Nc"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "Nc"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD004_000_epr"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "epr"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD004_000_Ps30"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "Ps30"
+      unit: "psia"
+    - node-id: "ns=2;s=ENGINE_FD004_000_phi"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "phi"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD004_000_NRf"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "NRf"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD004_000_NRc"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "NRc"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD004_000_BPR"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "BPR"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD004_000_farB"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "farB"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD004_000_htBleed"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "htBleed"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD004_000_Nf_dmd"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "Nf_dmd"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD004_000_PCNfR_dmd"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "PCNfR_dmd"
+      unit: "rpm"
+    - node-id: "ns=2;s=ENGINE_FD004_000_W31"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "W31"
+      unit: "--"
+    - node-id: "ns=2;s=ENGINE_FD004_000_W32"
+      asset-id: "ENGINE_FD004_000"
+      sensor-id: "W32"
+      unit: "--"
+
+# MinIO Configuration
+minio:
+  enabled: ${MINIO_ENABLED:false}
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:minioadmin}
+  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  bucket-name: ${MINIO_BUCKET_NAME:raw-sensor-data}
+  secure: ${MINIO_SECURE:false}
+
+# InfluxDB Configuration
+influxdb:
+  enabled: ${INFLUXDB_ENABLED:false}
+  url: ${INFLUXDB_URL:http://localhost:8086}
+  token: ${INFLUXDB_TOKEN:pm-token-change-in-production}
+  org: ${INFLUXDB_ORG:pm-org}
+  bucket: ${INFLUXDB_BUCKET:sensor-data}
+  measurement: ${INFLUXDB_MEASUREMENT:sensor_data}
+
+# Application Configuration
+app:
+  ingestion:
+    batch-size: ${INGESTION_BATCH_SIZE:100}
+    flush-interval: ${INGESTION_FLUSH_INTERVAL:5000}
+    buffer-size: ${INGESTION_BUFFER_SIZE:1000}
+    enable-edge-buffer: ${ENABLE_EDGE_BUFFER:true}
+    edge-buffer-path: ${EDGE_BUFFER_PATH:/tmp/ingestion-buffer}
+
+# Management / Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# Server Configuration
+server:
+  port: ${SERVER_PORT:8081}
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.predictivemaintenance.ingestion: DEBUG
+    org.eclipse.milo: WARN
+    org.springframework.kafka: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
